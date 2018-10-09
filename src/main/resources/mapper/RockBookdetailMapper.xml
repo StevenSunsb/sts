@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.dao.RockBookdetailMapper">
+  <resultMap id="BaseResultMap" type="com.example.server.model.RockBookdetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="factory" jdbcType="VARCHAR" property="factory" />
+    <result column="deptid" jdbcType="BIGINT" property="deptid" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="empName" jdbcType="VARCHAR" property="empname" />
+    <result column="empId" jdbcType="VARCHAR" property="empid" />
+    <result column="stuId" jdbcType="VARCHAR" property="stuid" />
+    <result column="shiftFlag" jdbcType="BIGINT" property="shiftflag" />
+    <result column="workConfirm" jdbcType="BIGINT" property="workconfirm" />
+    <result column="reasonForCancel" jdbcType="VARCHAR" property="reasonforcancel" />
+    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
+    <result column="cancelFlag" jdbcType="BIGINT" property="cancelflag" />
+    <result column="confirmPerson" jdbcType="VARCHAR" property="confirmperson" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="empidReplace" jdbcType="VARCHAR" property="empidReplace" />
+  </resultMap>
+
+  <select id="selectByEmpIdAndDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT
+      *
+      FROM
+	  rock_bookdetail
+      WHERE empid = #{empid,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+  <select id="selectByEmpIdAndDateMonth" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT
+    count(*) monthtotal
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date like #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+  <select id="selectByEmpIdAndDateMonthBai" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT
+    count(*) monthtotalbai
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date like #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3') AND shiftFlag = '1'
+  </select>
+
+  <select id="selectByEmpIdAndDateMonthYe" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT
+    count(*) monthtotalye
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date like #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3') AND shiftFlag = '2'
+  </select>
+
+  <select id="selectByEmpIdAndDateWeek" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT
+    count(*) weektotal
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date BETWEEN #{startdate,jdbcType=VARCHAR} AND  #{enddate,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+  <select id="selectByEmpIdAndDateMonthDetail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date like #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+    <select id="selectByDeptIdAndAreaAndDateDay" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+    *
+    FROM
+    rock_bookdetail
+    WHERE deptid = #{deptid,jdbcType=VARCHAR} and area = #{area,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+    </select>
+
+  <select id="selectByDeptIdAndAreaAndDateAndShiftflagDay" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_bookdetail
+    WHERE deptid = #{deptid,jdbcType=VARCHAR} and area = #{area,jdbcType=VARCHAR} and shiftFlag = #{shiftFlag,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+  <select id="selectFutureByEmpId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM rock_bookdetail WHERE empid = #{empid,jdbcType=VARCHAR} and  date &gt; now()  AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+
+  <select id="selectByEmpIdAndFirstAndLast" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+   *
+    FROM
+    rock_bookdetail
+    WHERE empid = #{empid,jdbcType=VARCHAR} and date BETWEEN #{firstDate,jdbcType=VARCHAR} AND  #{lastDate,jdbcType=VARCHAR} AND (cancelFlag ='2' or cancelFlag ='3')
+  </select>
+</mapper>

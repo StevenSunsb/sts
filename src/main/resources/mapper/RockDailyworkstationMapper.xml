@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.dao.RockDailyworkstationMapper">
+  <resultMap id="BaseResultMap" type="com.example.server.model.RockDailyworkstation">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="factory" jdbcType="VARCHAR" property="factory" />
+    <result column="deptid" jdbcType="BIGINT" property="deptid" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="dayNumber" jdbcType="BIGINT" property="daynumber" />
+    <result column="nightNumber" jdbcType="BIGINT" property="nightnumber" />
+    <result column="bookedDayNumber" jdbcType="BIGINT" property="bookeddaynumber" />
+    <result column="bookedNightNumber" jdbcType="BIGINT" property="bookednightnumber" />
+    <result column="workContent" jdbcType="VARCHAR" property="workcontent" />
+    <result column="bookStartTime" jdbcType="TIMESTAMP" property="bookStartTime" />
+    <result column="continuedTime" jdbcType="BIGINT" property="continuedTime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+
+  <select id="selectByDeptidAndShipflagAndDate"  useCache="false" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_dailyworkstation
+    WHERE deptid= #{deptid,jdbcType=VARCHAR} and  date= #{date,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByDeptidAndShipflagAndDateNew" useCache="false" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_dailyworkstation
+    WHERE deptid= #{deptid,jdbcType=VARCHAR} AND area=#{area,jdbcType=VARCHAR} AND   date= #{date,jdbcType=VARCHAR}
+  </select>
+</mapper>

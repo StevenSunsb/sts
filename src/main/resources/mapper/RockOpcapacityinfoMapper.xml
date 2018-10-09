@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.dao.RockOpcapacityinfoMapper">
+  <resultMap id="BaseResultMap" type="com.example.server.model.RockOpcapacityinfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="empName" jdbcType="VARCHAR" property="empname" />
+    <result column="empId" jdbcType="VARCHAR" property="empid" />
+    <result column="deptid" jdbcType="VARCHAR" property="deptid" />
+    <result column="shiftFlag" jdbcType="INTEGER" property="shiftflag" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="daycapacity" jdbcType="REAL" property="daycapacity" />
+  </resultMap>
+
+  <select id="getLastCapacityInfoByEmpid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_opcapacityinfo
+    WHERE id=(SELECT MAX(id) from rock_opcapacityinfo where empid = #{empid,jdbcType=VARCHAR})
+  </select>
+
+  <select id="getLastCapacityInfoByEmpidAndArea" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_opcapacityinfo
+    WHERE id=(SELECT MAX(id) from rock_opcapacityinfo where empid = #{empid,jdbcType=VARCHAR} AND area = #{area,jdbcType=VARCHAR})
+  </select>
+
+  <select id="getCapacityInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  date,empName,empid,deptid,shiftFlag,area,sum(daycapacity) daycapacity  from rock_opcapacityinfo
+    where date = #{date,jdbcType=VARCHAR} and empid=#{empid,jdbcType=VARCHAR} and area = #{area,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getMonthCapacityInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+      SELECT IFNULL(sum(daycapacity),0) as monthtotal from rock_opcapacityinfo where empid= #{empid,jdbcType=VARCHAR} and area = #{area,jdbcType=VARCHAR} and date like #{monthdate,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getYearCapacityInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT IFNULL(sum(daycapacity),0) as yeartotal from rock_opcapacityinfo where empid= #{empid,jdbcType=VARCHAR} and area = #{area,jdbcType=VARCHAR} and date like #{yeardate,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getMaxAndMinCapacity" parameterType="java.lang.String" resultType="java.util.HashMap">
+    SELECT MAX(daycapacity) AS maxcapacity,MIN(daycapacity) AS mincapacity FROM (
+		SELECT * FROM rock_opcapacityinfo WHERE empId = #{empid,jdbcType=VARCHAR} AND  area = #{area,jdbcType=VARCHAR} GROUP BY date ) A WHERE A.daycapacity != 0
+</select>
+</mapper>

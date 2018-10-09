@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.dao.RockOpempMapper">
+  <resultMap id="BaseResultMap" type="com.example.server.model.RockOpemp">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="factory" jdbcType="VARCHAR" property="factory" />
+    <result column="deptid" jdbcType="BIGINT" property="deptid" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="empId" jdbcType="VARCHAR" property="empid" />
+    <result column="empName" jdbcType="VARCHAR" property="empname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="roleFlag" jdbcType="INTEGER" property="roleflag" />
+    <result column="stuId" jdbcType="VARCHAR" property="stuid" />
+    <result column="stuStartTime" jdbcType="DATE" property="stustarttime" />
+    <result column="stuEndTime" jdbcType="DATE" property="stuendtime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+  </resultMap>
+
+  <select id="selectByEmpId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_opemp
+    WHERE id=(SELECT MAX(id) from rock_opemp where empid = #{empid,jdbcType=VARCHAR})
+  </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.dao.RockOpmanageMapper">
+  <resultMap id="BaseResultMap" type="com.example.server.model.RockOpmanage">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="deptid" jdbcType="BIGINT" property="deptid" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="factory" jdbcType="VARCHAR" property="factory" />
+    <result column="advanceBookingDays" jdbcType="BIGINT" property="advancebookingdays" />
+    <result column="earlyStopTime" jdbcType="BIGINT" property="earlystoptime" />
+    <result column="minDaysAWeek" jdbcType="BIGINT" property="mindaysaweek" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+
+  <select id="selectByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    rock_opmanage
+    WHERE id=(SELECT MAX(id) from rock_opmanage where deptid = #{deptid,jdbcType=VARCHAR})
+  </select>
+</mapper>
